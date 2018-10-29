@@ -1,4 +1,2 @@
-# basketball-arcade
-Vidéo de construction : 
-# Table miroir infini
+# Basketball Arcade
 Toutes les infos ici : http://lesfrerespoulain.fr/basket/
