@@ -17,22 +17,11 @@ void setup() {
   lcd.clear();
 
   pinMode(leds, OUTPUT);
-  delay(250);
-  digitalWrite(leds, LOW);
-  delay(250);
-  digitalWrite(leds, HIGH);
-  delay(250);
-  digitalWrite(leds, LOW);
-  delay(250);
-  digitalWrite(leds, HIGH);
-  delay(250);
-  digitalWrite(leds, LOW);
-  delay(250);
-  digitalWrite(leds, HIGH);
-  delay(250);
-  digitalWrite(leds, LOW);
-  delay(250);
-  digitalWrite(leds, HIGH);
+
+
+  animLed(leds, 4, 250);
+  
+
 
 }
 
@@ -53,9 +42,16 @@ void loop() {
   }
 
   if (start_game) {
-
+    // there is a probleme here
+    // if you keep scoring,
+    // the time of the led animation add up with the total time.
+    // if you score 10 points you add (6*2*50ms from led animation ) * 10 point = + 6 sec a playable time 
+    // maybe try something with millis() instead of 3000 delay of 10ms
+    // too late for me ;)
+    // and i can't test the code :'(
     // Temps = 1000 * 30s
-    for (uint16_t time = 30000; time > 0; time -= 10) {
+    for (uint16_t time = 30000; time > 0; time -= 10) {  
+
       // if time == an even second update matrix
       if (time % 1000 == 0) {
         print_time = time / 1000;
@@ -75,10 +71,8 @@ void loop() {
 
       }
 
-      if (in_hoop) {
-        if (!isBallInHoop()) {
-          in_hoop = false;
-        }
+      if (in_hoop && !isBallInHoop()) {
+        in_hoop = false;
       }
 
       if (!in_hoop && isBallInHoop()) {
@@ -87,57 +81,23 @@ void loop() {
         lcd.clear();
         lcd.setCursor(3, 0);
         lcd.print("BUT !!!!");
-        digitalWrite(leds, HIGH);
-        delay(50);
-        digitalWrite(leds, LOW);
-        delay(50);
-        digitalWrite(leds, HIGH);
-        delay(50);
-        digitalWrite(leds, LOW);
-        delay(50);
-        digitalWrite(leds, HIGH);
-        delay(50);
-        digitalWrite(leds, LOW);
-        delay(50);
-        digitalWrite(leds, HIGH);
-        delay(50);
-        digitalWrite(leds, LOW);
-        delay(50);
-        digitalWrite(leds, HIGH);
-        delay(50);
-        digitalWrite(leds, LOW);
-        delay(50);
-        digitalWrite(leds, HIGH);
-        delay(50);
-        digitalWrite(leds, LOW);
-        delay(50);
 
-         if (highscore < baskets) {
-        EEPROM.write(valuescore, baskets);
-      }
+        animLed(leds, 6, 50);
+        
+
+        if (highscore < baskets) {
+          EEPROM.write(valuescore, baskets);
+        }
 
       }
-
-     
       delay(10);
     }
 
     highscore = EEPROM.read(valuescore);
-    digitalWrite(leds, HIGH);
-    delay(100);
-    digitalWrite(leds, LOW);
-    delay(100);
-    digitalWrite(leds, HIGH);
-    delay(100);
-    digitalWrite(leds, LOW);
-    delay(100);
-    digitalWrite(leds, HIGH);
-    delay(100);
-    digitalWrite(leds, LOW);
-    delay(100);
-    digitalWrite(leds, HIGH);
-    delay(100);
-    digitalWrite(leds, LOW);
+
+    animLed(leds, 4, 100);
+    
+
     lcd.clear();
 
     if (highscore > baskets) {
@@ -163,9 +123,9 @@ void loop() {
     delay(7000);
     lcd.clear();
     
-    }
-    delay(100);
   }
+  delay(100);
+}
 
 
   ///////////////////////////////////////////////////////
@@ -173,13 +133,24 @@ void loop() {
   // Detection du passage de la balle 
   // 
   ///////////////////////////////////////////////////////
-  
-  boolean isBallInHoop() {
 
-    if (analogRead(pinphoto) <= 600) {
-      
-      return false;
-    }
-    
-    return true; 
+boolean isBallInHoop() {
+  boolean ret = true
+  if (analogRead(pinphoto) <= 600) {
+
+    ret = false;
   }
+
+  return ret; 
+}
+
+
+void animLed(int pinled, int nb, int timing){
+  for (int i = 0; i < nb; ++i)
+    {
+      digitalWrite(pinled, HIGH);
+      delay(timing);
+      digitalWrite(pinled, LOW);
+      delay(timing);
+    }
+}
