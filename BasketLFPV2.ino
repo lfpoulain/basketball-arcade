@@ -17,23 +17,14 @@ void setup() {
   lcd.clear();
 
   pinMode(leds, OUTPUT);
-  delay(250);
-  digitalWrite(leds, LOW);
-  delay(250);
-  digitalWrite(leds, HIGH);
-  delay(250);
-  digitalWrite(leds, LOW);
-  delay(250);
-  digitalWrite(leds, HIGH);
-  delay(250);
-  digitalWrite(leds, LOW);
-  delay(250);
-  digitalWrite(leds, HIGH);
-  delay(250);
-  digitalWrite(leds, LOW);
-  delay(250);
-  digitalWrite(leds, HIGH);
-
+  
+  for (int i=0; i <= 3; i++){
+    delay(250);
+    digitalWrite(leds, LOW);
+    delay(250);
+    digitalWrite(leds, HIGH);
+   }
+  
 }
 
 void loop() {
@@ -87,30 +78,16 @@ void loop() {
         lcd.clear();
         lcd.setCursor(3, 0);
         lcd.print("BUT !!!!");
-        digitalWrite(leds, HIGH);
-        delay(50);
-        digitalWrite(leds, LOW);
-        delay(50);
-        digitalWrite(leds, HIGH);
-        delay(50);
-        digitalWrite(leds, LOW);
-        delay(50);
-        digitalWrite(leds, HIGH);
-        delay(50);
-        digitalWrite(leds, LOW);
-        delay(50);
-        digitalWrite(leds, HIGH);
-        delay(50);
-        digitalWrite(leds, LOW);
-        delay(50);
-        digitalWrite(leds, HIGH);
-        delay(50);
-        digitalWrite(leds, LOW);
-        delay(50);
-        digitalWrite(leds, HIGH);
-        delay(50);
-        digitalWrite(leds, LOW);
-        delay(50);
+        
+        for (int i=0; i <= 5; i++){
+          digitalWrite(leds, HIGH);
+          delay(50);
+          digitalWrite(leds, LOW);
+          delay(50);
+        }
+        
+        
+        
 
          if (highscore < baskets) {
         EEPROM.write(valuescore, baskets);
@@ -123,21 +100,15 @@ void loop() {
     }
 
     highscore = EEPROM.read(valuescore);
-    digitalWrite(leds, HIGH);
-    delay(100);
-    digitalWrite(leds, LOW);
-    delay(100);
-    digitalWrite(leds, HIGH);
-    delay(100);
-    digitalWrite(leds, LOW);
-    delay(100);
-    digitalWrite(leds, HIGH);
-    delay(100);
-    digitalWrite(leds, LOW);
-    delay(100);
-    digitalWrite(leds, HIGH);
-    delay(100);
-    digitalWrite(leds, LOW);
+    
+    for (int i=0; i <= 4; i++){
+          digitalWrite(leds, HIGH);
+          delay(100);
+          digitalWrite(leds, LOW);
+          delay(100);
+        }
+    
+    
     lcd.clear();
 
     if (highscore > baskets) {
