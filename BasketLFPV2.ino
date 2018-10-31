@@ -17,23 +17,13 @@ void setup() {
   lcd.clear();
 
   pinMode(leds, OUTPUT);
-  delay(250);
-  digitalWrite(leds, LOW);
-  delay(250);
-  digitalWrite(leds, HIGH);
-  delay(250);
-  digitalWrite(leds, LOW);
-  delay(250);
-  digitalWrite(leds, HIGH);
-  delay(250);
-  digitalWrite(leds, LOW);
-  delay(250);
-  digitalWrite(leds, HIGH);
-  delay(250);
-  digitalWrite(leds, LOW);
-  delay(250);
-  digitalWrite(leds, HIGH);
-
+  for(int i = 0; i < 4; ++i)
+  {
+    delay(250);
+    digitalWrite(leds, LOW);
+    delay(250);
+    digitalWrite(leds, HIGH);
+  }
 }
 
 void loop() {
@@ -87,30 +77,7 @@ void loop() {
         lcd.clear();
         lcd.setCursor(3, 0);
         lcd.print("BUT !!!!");
-        digitalWrite(leds, HIGH);
-        delay(50);
-        digitalWrite(leds, LOW);
-        delay(50);
-        digitalWrite(leds, HIGH);
-        delay(50);
-        digitalWrite(leds, LOW);
-        delay(50);
-        digitalWrite(leds, HIGH);
-        delay(50);
-        digitalWrite(leds, LOW);
-        delay(50);
-        digitalWrite(leds, HIGH);
-        delay(50);
-        digitalWrite(leds, LOW);
-        delay(50);
-        digitalWrite(leds, HIGH);
-        delay(50);
-        digitalWrite(leds, LOW);
-        delay(50);
-        digitalWrite(leds, HIGH);
-        delay(50);
-        digitalWrite(leds, LOW);
-        delay(50);
+        flashLEDs(6, 50);
 
          if (highscore < baskets) {
         EEPROM.write(valuescore, baskets);
@@ -123,21 +90,7 @@ void loop() {
     }
 
     highscore = EEPROM.read(valuescore);
-    digitalWrite(leds, HIGH);
-    delay(100);
-    digitalWrite(leds, LOW);
-    delay(100);
-    digitalWrite(leds, HIGH);
-    delay(100);
-    digitalWrite(leds, LOW);
-    delay(100);
-    digitalWrite(leds, HIGH);
-    delay(100);
-    digitalWrite(leds, LOW);
-    delay(100);
-    digitalWrite(leds, HIGH);
-    delay(100);
-    digitalWrite(leds, LOW);
+    flashLEDs(4, 100);
     lcd.clear();
 
     if (highscore > baskets) {
@@ -145,19 +98,14 @@ void loop() {
       lcd.setCursor(13, 0);
       lcd.print(highscore);
       lcd.setCursor(0, 1);
-      lcd.print("Score :");
-      lcd.setCursor(8, 1);
-      lcd.print(baskets);
-
+      printScore();
     }
 
     else {
       lcd.setCursor(0, 0);
       lcd.print("Nouveau record !");
       lcd.setCursor(0, 1);
-      lcd.print("Score :");
-      lcd.setCursor(8, 1);
-      lcd.print(baskets);
+      printScore();
     }
     
     delay(7000);
@@ -167,7 +115,6 @@ void loop() {
     delay(100);
   }
 
-
   ///////////////////////////////////////////////////////
   // 
   // Detection du passage de la balle 
@@ -175,11 +122,27 @@ void loop() {
   ///////////////////////////////////////////////////////
   
   boolean isBallInHoop() {
-
-    if (analogRead(pinphoto) <= 600) {
-      
+    if (analogRead(pinphoto) <= 600)
+    {
       return false;
     }
-    
     return true; 
+  }
+
+  void flashLEDs(int nbTime, int delay)
+  {
+    for(int i = 0; i < nbTime: ++i)
+    {
+      digitalWrite(leds, HIGH);
+      delay(delay);
+      digitalWrite(leds, HIGH);
+      delay(delay);
+    }
+  }
+
+  void printScore()
+  {
+    lcd.print("Score :");
+    lcd.setCursor(8, 1);
+    lcd.print(baskets);
   }
